@@ -21,7 +21,7 @@ export default function Index({socials}) {
 
 export async function getStaticProps(ctx) {
    try {
-       const response = await fetch(`${process.env.API_HOST}/socials`)
+       const response = await fetch(`https://app-next-js-navy.vercel.app/api/socials`)
        const data = await response.json()
 
        if (!data) {
