@@ -12,7 +12,7 @@ export const socials = [
   {
     id: 3,
     icon: 'linkedin',
-    path: 'https://www.linkedin.com/in/marat-ahatov-45003a237/',
+    path: 'https://www.linkedin.com/in/marat-ahatov-45003a237',
   },
   {
     id: 4,
