@@ -10,21 +10,7 @@ interface PostPageProps {
     post: MyPost
 }
 
-export default function Post({ post: serverPost }: PostPageProps) {
-    const [post, setPost] = useState(serverPost)
-    const router = useRouter()
-
-    useEffect(() => {
-        async function load() {
-            const response = await fetch(`http://localhost:4300/posts/${router.query.id}`)
-            const data = await response.json()
-            setPost(data)
-        }
-
-        if (!serverPost) {
-            load()
-        }
-    }, [])
+export default function Post({ post}: PostPageProps) {
 
     if (!post) {
         return <MainLayout>
@@ -34,29 +20,41 @@ export default function Post({ post: serverPost }: PostPageProps) {
 
     return (
         <MainLayout>
-            <h1>{post.title}</h1> <br/>
+            <h1 style={{color: 'orange'}}>Post : {post.id}</h1> <br/>
             <hr />
             <br/>
-            <p>{post.body}</p>
+            <p> 📃 {post.body} </p>
             <br/>
             <Link href={'/posts'}><a>Back to all posts</a></Link>
         </MainLayout>
     )
 }
 
-interface PostNextPageContext extends NextPageContext {
-    query: {
-        id: string
+export async function getStaticPaths() {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts`)
+    const post = await response.json()
+
+    const paths = post.map(({id}) => ({params: {id: id.toString()}}))
+
+    return {
+        paths,
+        fallback: false
     }
 }
 
-Post.getInitialProps = async ({ query, req }: PostNextPageContext) => {
-    if (!req) {
-        return {post: null}
+
+export async function getStaticProps({ params}) {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts/${params.id}`)
+    const posts = await response.json()
+
+    if (!posts) {
+        return {
+            notFound: true
+        }
     }
 
-    const response = await fetch(`http://localhost:4300/posts/${query.id}`)
-    const post: MyPost = await response.json()
-
-    return {post}
+    return {
+        props: {post: posts}
+    }
 }
+

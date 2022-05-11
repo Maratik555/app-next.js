@@ -2,7 +2,7 @@ import React from 'react'
 import {MainLayout} from '../../components/MainLayout'
 import Router from 'next/router'
 
-const About = ({title}) => {
+const About = () => {
 
     const linkClickHandler = () => {
         Router.push('/')
@@ -10,7 +10,7 @@ const About = ({title}) => {
 
     return (
         <MainLayout title={'About Page'}>
-            <h1>{title}</h1> <br/>
+            <h1>Страница о нас </h1> <br/>
             <h3>Created by Marat© 🤖 <a href="https://github.com/Maratik555" target="_blank">➡ GitHub</a></h3>
              <br/>
             <button onClick={linkClickHandler}>Go back to home</button> <br/> <br/>
@@ -20,13 +20,5 @@ const About = ({title}) => {
     )
 }
 
-About.getInitialProps = async () => {
-    const response = await fetch(`http://localhost:4300/about`)
-    const data = await response.json()
-
-    return {
-        title: data.title
-    }
-}
 
 export default About

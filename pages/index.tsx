@@ -6,7 +6,8 @@ import Socials from '../components/Socials'
 export default function Index({socials}) {
     return (
             <MainLayout title={'Home Page'}>
-            <h1 style={{textAlign:'center'}}>Next.js 😎</h1> <br/>
+                <h1 style={{textAlign:'center'}}>Home Page</h1> <br/>
+                <h2 style={{textAlign:'center'}}><i>Next.js 😎</i></h2> <br/>
                 <hr/>
                 <br/>
                 <Socials socials={socials} /> <br/>

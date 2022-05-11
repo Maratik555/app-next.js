@@ -14,7 +14,7 @@ export default function Users({users}) {
     }
     return (
         <MainLayout title={'Users page'}>
-            <h1>Пользователи: </h1> <br/>
+            <h1>Users Page </h1> <br/>
             <ul style={{paddingLeft: 15}}>
                 {users.map(user =>
                     <li key={user.id} style={{padding: 4}}>

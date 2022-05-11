@@ -10,20 +10,7 @@ interface PostsPageProps {
     posts: MyPost[]
 }
 
-export default function Posts({ posts: serverPosts }: PostsPageProps) {
-    const [posts, setPosts] = useState(serverPosts)
-
-    useEffect(() => {
-        async function load() {
-            const response = await fetch('http://localhost:4300/posts')
-            const json = await response.json()
-            setPosts(json)
-        }
-
-        if (!serverPosts) {
-            load()
-        }
-    }, [])
+export default function Posts({ posts}: PostsPageProps) {
 
     if (!posts) {
         return <MainLayout>
@@ -50,13 +37,17 @@ export default function Posts({ posts: serverPosts }: PostsPageProps) {
     )
 }
 
-Posts.getInitialProps = async ({req}: NextPageContext) => {
-    if (!req) {
-        return {posts: null}
+export async function getStaticProps(ctx) {
+    const response = await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=20`)
+    const posts = await response.json()
+
+    if (!posts) {
+        return {
+            notFound: true
+        }
     }
 
-    const response = await fetch(`http://localhost:4300/posts`)
-    const posts: MyPost[] = await response.json()
-
-    return {posts}
+    return {
+        props: {posts}
+    }
 }
